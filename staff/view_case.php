@@ -1,3 +1,25 @@
+
+<?php
+
+include '../db_connects.php'; // adjust path if needed
+$cases = fetchDisciplinaryCases($conn);
+
+
+function fetchDisciplinaryCases($conn) {
+    $cases = [];
+
+    $query = "SELECT caseID, studentID, caseDate, offenseType, status FROM disciplinary_cases ORDER BY caseDate DESC";
+    $result = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $cases[] = $row;
+    }
+
+    return $cases;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,6 +122,15 @@
       background-color: #005fa3;
     }
 
+    .generate-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .generate-btn:hover {
+      background-color: #1e7e34;
+    }
+
     .nav-title{
       color:black;
     }
@@ -108,7 +139,7 @@
 <body>
 
 <div class="navbar">
-  <a href="staff_dashboard" style="text-decoration: none;"><div class="nav-title">UPTM Discipline Management System</div></a>
+  <a href="staff_dashboard.php" style="text-decoration: none;"><div class="nav-title">UPTM Discipline Management System</div></a>
   <div class="nav-buttons">
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
@@ -131,32 +162,21 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Dummy Data Rows -->
-      <tr>
-        <td>001</td>
-        <td>AM202010</td>
-        <td>Inappropriate Attire</td>
-        <td>2023-08-12</td>
-        <td>Open</td>
-        <td class="action-buttons">
-          <button class="update-btn" onclick="location.href='update_case.php?id=001'">Update</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=001'">View Record</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=001'">Generate Report</button>
-        </td>
-      </tr>
-      <tr>
-        <td>002</td>
-        <td>AM202011</td>
-        <td>Disruptive Behavior</td>
-        <td>2023-09-05</td>
-        <td>Closed</td>
-        <td class="action-buttons">
-          <button class="update-btn" onclick="location.href='update_case.php?id=002'">Update</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=002'">View Record</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=002'">Generate Report</button>
-        </td>
-      </tr>
-      <!-- Add more rows as needed -->
+<?php foreach ($cases as $case): ?>
+<tr>
+  <td><?php echo htmlspecialchars($case['caseID']); ?></td>
+  <td><?php echo htmlspecialchars($case['studentID']); ?></td>
+  <td><?php echo htmlspecialchars($case['offenseType']); ?></td>
+  <td><?php echo htmlspecialchars($case['caseDate']); ?></td>
+  <td><?php echo htmlspecialchars($case['status']); ?></td>
+  <td class="action-buttons">
+    <button class="update-btn" onclick="location.href='update_case.php?id=<?php echo $case['caseID']; ?>'">Update</button>
+        <button class="generate-btn" onclick="location.href='generate_pdf.php?id=<?php echo $case['caseID']; ?>'">Download Report</button>
+    <button class="view-btn" onclick="location.href='view_record.php?id=<?php echo $case['caseID']; ?>'">View Record</button>
+  </td>
+</tr>
+<?php endforeach; ?>
+
     </tbody>
   </table>
 </div>

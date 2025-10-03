@@ -1,3 +1,21 @@
+<?php
+include '../db_connects.php'; // adjust path if needed
+
+function fetchStaff($conn) {
+    $staff = [];
+    $query = "SELECT userID, username, email, userRole, createdAt FROM users ORDER BY createdAt DESC";
+    $result = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $staff[] = $row;
+    }
+
+    return $staff;
+}
+
+$staffList = fetchStaff($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,6 +91,33 @@
     tr:hover {
       background-color: #f1f1f1;
     }
+    
+    .action-buttons button {
+  padding: 8px 14px;
+  margin-right: 6px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-btn {
+  background-color: #ffc107;
+  color: black;
+}
+.update-btn:hover {
+  background-color: #e0a800;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
   </style>
 </head>
 <body>
@@ -80,9 +125,9 @@
 <div class="navbar">
   <a href="admin_dashboard.php" style="text-decoration: none;"><div class="nav-title">UPTM Discipline Management System</div></a>
   <div class="nav-buttons">
-    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
+    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='../index.html'">Logout</button>
   </div>
 </div>
@@ -98,34 +143,36 @@
         <th>Email</th>
         <th>Role</th>
         <th>Created At</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <!-- Dummy Data Rows -->
-      <tr>
-        <td>1</td>
-        <td>admin1</td>
-        <td>stormieswordk@gmail.com</td>
-        <td>Admin</td>
-        <td>2025-09-30 09:11:00</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>staff1</td>
-        <td>alfib@learning@gmail.com</td>
-        <td>Staff</td>
-        <td>2025-09-30 09:12:00</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>student1</td>
-        <td>student@gmail.com</td>
-        <td>Student</td>
-        <td>2025-09-30 09:13:00</td>
-      </tr>
+<?php foreach ($staffList as $staff): ?>
+<tr>
+  <td><?php echo htmlspecialchars($staff['userID']); ?></td>
+  <td><?php echo htmlspecialchars($staff['username']); ?></td>
+  <td><?php echo htmlspecialchars($staff['email']); ?></td>
+  <td><?php echo htmlspecialchars($staff['userRole']); ?></td>
+  <td><?php echo htmlspecialchars($staff['createdAt']); ?></td>
+<td class="action-buttons">
+  <button class="update-btn" onclick="location.href='edit_staff.php?id=<?php echo $staff['userID']; ?>'">Update</button>
+  <button class="delete-btn" onclick="confirmDelete(<?php echo $staff['userID']; ?>)">Delete</button>
+</td>
+
+</tr>
+<?php endforeach; ?>
+
     </tbody>
   </table>
 </div>
+<script>
+function confirmDelete(userID) {
+  if (confirm("Are you sure you want to delete User ID " + userID + "? This action cannot be undone.")) {
+    window.location.href = "delete_staff.php?id=" + userID;
+  }
+}
+</script>
 
 </body>
 </html>

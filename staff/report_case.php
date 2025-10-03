@@ -1,3 +1,41 @@
+<?php
+include '../db_connects.php'; // adjust path if needed
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $studentID     = $_POST['studentID'];
+    $offenseType   = $_POST['offenseType'];
+    $incidentDate  = $_POST['incidentDate'];
+    $incidentTime  = $_POST['incidentTime'];
+    $description   = $_POST['description'];
+    $createdByID   = 1; // Replace with actual staff ID from session if available
+
+    // Handle file upload
+    $evidencePath = null;
+    if (!empty($_FILES['evidence']['name'])) {
+        $targetDir = "../uploads/";
+        $filename = basename($_FILES["evidence"]["name"]);
+        $targetFile = $targetDir . time() . "_" . $filename;
+
+        if (move_uploaded_file($_FILES["evidence"]["tmp_name"], $targetFile)) {
+            $evidencePath = $targetFile;
+        }
+    }
+
+    // Insert into disciplinary_cases (only studentID, not studentName/faculty/course)
+    $query = "INSERT INTO disciplinary_cases (studentID, offenseType, caseDate, caseTime, description, evidencePath, createdByID, status)
+              VALUES (?, ?, ?, ?, ?, ?, ?, 'open')";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ssssssi", $studentID, $offenseType, $incidentDate, $incidentTime, $description, $evidencePath, $createdByID);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Case reported successfully.'); window.location.href='view_case.php';</script>";
+    } else {
+        echo "<script>alert('Failed to report case.');</script>";
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,20 +155,15 @@
     <label for="studentID">Student ID</label>
     <input type="text" id="studentID" name="studentID" placeholder="e.g. AM202010">
 
-    <label for="studentName">Student Name</label>
-    <input type="text" id="studentName" name="studentName" placeholder="e.g. Amin">
+  <label for="studentName">Student Name</label>
+  <input type="text" id="studentName" name="studentName" readonly>
 
-    <label for="faculty">Faculty</label>
-    <select id="faculty" name="faculty">
-      <option value="">Select Faculty</option>
-      <option value="FCM">FCM</option>
-      <option value="FCSIT">FCSIT</option>
-      <option value="FBA">FBA</option>
-      <!-- Add more as needed -->
-    </select>
+  <label for="faculty">Faculty</label>
+  <input type="text" id="faculty" name="faculty" readonly>
 
-    <label for="course">Course</label>
-    <input type="text" id="course" name="course" placeholder="e.g. Cyber Security">
+  <label for="course">Course</label>
+  <input type="text" id="course" name="course" readonly>
+
 
     <label for="offenseType">Type of Offense</label>
     <select id="offenseType" name="offenseType">
@@ -156,6 +189,31 @@
     <button type="submit">SUBMIT</button>
   </form>
 </div>
+<script>
+// Fetch student details when Student ID field loses focus
+document.getElementById('studentID').addEventListener('blur', function() {
+  const studentID = this.value.trim();
+  if (studentID === '') return;
+
+  fetch(`fetch_student.php?studentID=${encodeURIComponent(studentID)}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('studentName').value = data.studentName;
+        document.getElementById('faculty').value = data.faculty;
+        document.getElementById('course').value = data.course;
+      } else {
+        alert('Student not found.');
+        document.getElementById('studentName').value = '';
+        document.getElementById('faculty').value = '';
+        document.getElementById('course').value = '';
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching student:', error);
+    });
+});
+</script>
 
 </body>
 </html>

@@ -1,3 +1,36 @@
+<?php
+
+include '../db_connects.php'; // or wherever your $conn is defined
+
+function getDashboardMetrics($conn) {
+    $metrics = [];
+
+    // Number of Staff
+    $staffQuery = "SELECT COUNT(*) AS staffCount FROM users WHERE userRole = 'Staff'";
+    $staffResult = mysqli_query($conn, $staffQuery);
+    $metrics['staff'] = mysqli_fetch_assoc($staffResult)['staffCount'];
+
+    // Number of Admins
+    $adminQuery = "SELECT COUNT(*) AS adminCount FROM users WHERE userRole = 'Admin'";
+    $adminResult = mysqli_query($conn, $adminQuery);
+    $metrics['admin'] = mysqli_fetch_assoc($adminResult)['adminCount'];
+
+    // Number of Students
+    $studentQuery = "SELECT COUNT(*) AS studentCount FROM students";
+    $studentResult = mysqli_query($conn, $studentQuery);
+    $metrics['students'] = mysqli_fetch_assoc($studentResult)['studentCount'];
+
+    // Number of Cases
+    $caseQuery = "SELECT COUNT(*) AS caseCount FROM disciplinary_cases";
+    $caseResult = mysqli_query($conn, $caseQuery);
+    $metrics['cases'] = mysqli_fetch_assoc($caseResult)['caseCount'];
+
+    return $metrics;
+}
+
+$metrics = getDashboardMetrics($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,38 +112,37 @@
 <body>
 
 <div class="navbar">
-  <a href="admin_dashboard.php" style="text-decoration: none;"><div class="nav-title">UPTM Discipline Management System</div></a>
+  <a href="staff_dashboard" style="text-decoration: none;"><div class="nav-title">UPTM Discipline Management System</div></a>
   <div class="nav-buttons">
-    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
+    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='../index.html'">Logout</button>
   </div>
 </div>
 
-
   <div class="main-content">
-    <h2>Welcome to the Admin Dashboard!</h2>
+    <h2>Welcome to the Staff Dashboard!</h2>
 
     <div class="metrics-grid">
       <div class="metric-box">
         <div class="metric-title">NUMBER OF STAFF</div>
-        <div class="metric-value">42</div>
+        <div class="metric-value"><?php echo $metrics['staff']; ?></div>
       </div>
 
       <div class="metric-box">
         <div class="metric-title">NUMBER OF ADMINISTRATORS</div>
-        <div class="metric-value">5</div>
+        <div class="metric-value"><?php echo $metrics['admin']; ?></div>
       </div>
 
       <div class="metric-box">
         <div class="metric-title">NUMBER OF CASES</div>
-        <div class="metric-value">63</div>
+        <div class="metric-value"><?php echo $metrics['cases']; ?></div>
       </div>
 
       <div class="metric-box">
         <div class="metric-title">NUMBER OF STUDENTS</div>
-        <div class="metric-value">6256</div>
+        <div class="metric-value"><?php echo $metrics['students']; ?></div>
       </div>
     </div>
   </div>

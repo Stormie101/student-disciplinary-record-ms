@@ -1,3 +1,25 @@
+
+<?php
+
+include '../db_connects.php'; // adjust path if needed
+$cases = fetchDisciplinaryCases($conn);
+
+
+function fetchDisciplinaryCases($conn) {
+    $cases = [];
+
+    $query = "SELECT caseID, studentID, caseDate, offenseType, status FROM disciplinary_cases ORDER BY caseDate DESC";
+    $result = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $cases[] = $row;
+    }
+
+    return $cases;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,15 +114,6 @@
       color: white;
     }
 
-    .delete-btn{
-        background-color: #dc3545;
-        color: white;
-    }
-
-    .delete-btn:hover {
-      background-color: #a71d2a;
-    }
-
     .update-btn:hover {
       background-color: #e0a800;
     }
@@ -109,9 +122,26 @@
       background-color: #005fa3;
     }
 
+    .generate-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .generate-btn:hover {
+      background-color: #1e7e34;
+    }
+
     .nav-title{
       color:black;
     }
+    .delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
   </style>
 </head>
 <body>
@@ -119,9 +149,9 @@
 <div class="navbar">
   <a href="admin_dashboard.php" style="text-decoration: none;"><div class="nav-title">UPTM Discipline Management System</div></a>
   <div class="nav-buttons">
-    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
+    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='../index.html'">Logout</button>
   </div>
 </div>
@@ -141,38 +171,33 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Dummy Data Rows -->
-      <tr>
-        <td>001</td>
-        <td>AM202010</td>
-        <td>Inappropriate Attire</td>
-        <td>2023-08-12</td>
-        <td>Open</td>
-        <td class="action-buttons">
-          <button class="update-btn" onclick="location.href='update_case.php?id=001'">Update</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=001'">View Record</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=001'">Generate Report</button>
-          <button class="delete-btn" onclick="location.href='view_record.php?id=001'">Delete Case</button>
+<?php foreach ($cases as $case): ?>
+<tr>
+  <td><?php echo htmlspecialchars($case['caseID']); ?></td>
+  <td><?php echo htmlspecialchars($case['studentID']); ?></td>
+  <td><?php echo htmlspecialchars($case['offenseType']); ?></td>
+  <td><?php echo htmlspecialchars($case['caseDate']); ?></td>
+  <td><?php echo htmlspecialchars($case['status']); ?></td>
+  <td class="action-buttons">
+    <button class="update-btn" onclick="location.href='update_case.php?id=<?php echo $case['caseID']; ?>'">Update</button>
+    <button class="generate-btn" onclick="location.href='generate_pdf.php?id=<?php echo $case['caseID']; ?>'">Download Report</button>
+    <button class="view-btn" onclick="location.href='view_record.php?id=<?php echo $case['caseID']; ?>'">View Record</button>
+    <button class="delete-btn" onclick="confirmDelete(<?php echo $case['caseID']; ?>)">Delete</button>
+  </td>
+</tr>
+<?php endforeach; ?>
 
-        </td>
-      </tr>
-      <tr>
-        <td>002</td>
-        <td>AM202011</td>
-        <td>Disruptive Behavior</td>
-        <td>2023-09-05</td>
-        <td>Closed</td>
-        <td class="action-buttons">
-          <button class="update-btn" onclick="location.href='update_case.php?id=002'">Update</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=002'">View Record</button>
-          <button class="view-btn" onclick="location.href='view_record.php?id=002'">Generate Report</button>
-          <button class="delete-btn" onclick="location.href='view_record.php?id=002'">Delete Case</button>
-        </td>
-      </tr>
-      <!-- Add more rows as needed -->
     </tbody>
   </table>
 </div>
 
 </body>
+<script>
+function confirmDelete(caseID) {
+  if (confirm("Are you sure you want to delete Case ID " + caseID + "? This action cannot be undone.")) {
+    window.location.href = "delete_case.php?id=" + caseID;
+  }
+}
+</script>
+
 </html>
