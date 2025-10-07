@@ -1,6 +1,13 @@
 <?php
 
 include '../db_connects.php'; // or wherever your $conn is defined
+session_start();
+
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'Staff') {
+  header('Location: ../index.html');
+  exit;
+}
+
 
 function getDashboardMetrics($conn) {
     $metrics = [];

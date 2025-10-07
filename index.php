@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_regenerate_id(true); // Prevent session fixation
 require 'db_connects.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
 
-    if ($user['passwordHash'] === $password) {
+    if (password_verify($password, $user['passwordHash'])) {
       $_SESSION['username'] = $username;
       $_SESSION['role'] = $user['userRole'];
       $_SESSION['userID'] = $user['userID'];
@@ -49,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($result->num_rows === 1) {
     $student = $result->fetch_assoc();
 
-    if ($student['passwordHash'] === $password) {
+    if (password_verify($password, $student['passwordHash'])) {
       $_SESSION['username'] = $student['username'];
       $_SESSION['role'] = 'Student';
       $_SESSION['studentID'] = $student['studentID'];
