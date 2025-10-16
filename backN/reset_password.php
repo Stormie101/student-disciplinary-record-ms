@@ -32,15 +32,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $userID = $_SESSION['reset_userID'];
 
+  $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
   $stmt = $conn->prepare("UPDATE Users SET passwordHash = ? WHERE userID = ?");
-  $stmt->bind_param("si", $newPassword, $userID);
+  $stmt->bind_param("si", $hashedPassword, $userID);
   $stmt->execute();
 
   unset($_SESSION['reset_userID']);
 
   echo "<script>
     alert('Password reset successful. You may now log in.');
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   </script>";
 
   $stmt->close();

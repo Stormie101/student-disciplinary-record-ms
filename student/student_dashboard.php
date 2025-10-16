@@ -1,5 +1,18 @@
 <?php
+// 🔐 Basic secure session setup
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_strict_mode', 1);
+ini_set('session.cookie_secure', isset($_SERVER['HTTPS']));
 session_start();
+
+// ✅ Check if user is logged in and has correct role
+if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
+  header('Location: ../index.html');
+  exit;
+}
+
+// ✅ Optional: clear 2FA code after login
+unset($_SESSION['2fa_code'], $_SESSION['2fa_expiry']);
 require '../db_connects.php';
 
 // Ensure student is logged in
@@ -119,7 +132,7 @@ $conn->close();
     <div class="nav-title">UPTM Discipline Management System</div>
   </a>
   <div class="nav-buttons">
-    <button onclick="location.href='../index.html'">Logout</button>
+    <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>
 

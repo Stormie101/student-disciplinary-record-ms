@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="nav-buttons">
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
-    <button onclick="location.href='../index.html'">Logout</button>
+    <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>
 

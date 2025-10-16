@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $username = $_POST['username'] ?? '';
   $password = $_POST['password'] ?? '';
 
-  // First check in Users table (Admin & Staff)
-  $stmt = $conn->prepare("SELECT userID, passwordHash, userRole FROM Users WHERE username = ?");
+  // 🔍 First check in Users table (Admin & Staff)
+  $stmt = $conn->prepare("SELECT userID, username, email, passwordHash, userRole FROM Users WHERE username = ?");
   $stmt->bind_param("s", $username);
   $stmt->execute();
   $result = $stmt->get_result();
@@ -17,21 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $result->fetch_assoc();
 
     if (password_verify($password, $user['passwordHash'])) {
-      $_SESSION['username'] = $username;
+      $_SESSION['username'] = $user['username'];
+      $_SESSION['email'] = $user['email'];
       $_SESSION['role'] = $user['userRole'];
       $_SESSION['userID'] = $user['userID'];
 
-      switch ($user['userRole']) {
-        case 'Admin':
-          header('Location: admin/admin_dashboard.php');
-          exit;
-        case 'Staff':
-          header('Location: staff/staff_dashboard.php');
-          exit;
-        case 'Student':
-          header('Location: student/student_dashboard.php');
-          exit;
-      }
+      // 🔐 Generate OTP
+      $otp = rand(100000, 999999);
+      $_SESSION['2fa_code'] = $otp;
+      $_SESSION['2fa_expiry'] = time() + 300; // 5 minutes
+
+      // 📧 Send OTP via PHPMailer
+      require 'backN/2fa_mail.php';
+
+      header('Location: backN/verify_2fa.php');
+      exit;
     } else {
       echo "<script>alert('Incorrect password');</script>";
     }
@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
-  // If not found in Users, check in Students table directly
-  $stmt = $conn->prepare("SELECT studentID, username, passwordHash FROM students WHERE username = ?");
+  // 🔍 If not found in Users, check in Students table
+  $stmt = $conn->prepare("SELECT studentID, username, email, passwordHash FROM students WHERE username = ?");
   $stmt->bind_param("s", $username);
   $stmt->execute();
   $result = $stmt->get_result();
@@ -52,10 +52,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (password_verify($password, $student['passwordHash'])) {
       $_SESSION['username'] = $student['username'];
+      $_SESSION['email'] = $student['email'];
       $_SESSION['role'] = 'Student';
       $_SESSION['studentID'] = $student['studentID'];
 
-      header('Location: student/student_dashboard.php');
+      $otp = rand(100000, 999999);
+      $_SESSION['2fa_code'] = $otp;
+      $_SESSION['2fa_expiry'] = time() + 300;
+
+      require 'backN/2fa_mail.php';
+
+      header('Location: backN/verify_2fa.php');
       exit;
     } else {
       echo "<script>alert('Incorrect password');</script>";
