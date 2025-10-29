@@ -83,7 +83,7 @@ $error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
     <?php endif; ?>
 
     <div class="role-selector">
-      <button type="button" id="admin-btn" onclick="showForm('admin')">Admin</button>
+      <button type="button" id="admin-btn" onclick="showForm('admin')">Staff</button>
       <button type="button" id="student-btn" onclick="showForm('student')">Student</button>
     </div>
 
@@ -103,7 +103,7 @@ $error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
       <label for="confirm_password">CONFIRM PASSWORD</label>
       <input type="password" id="confirm_password" name="confirm_password" placeholder="********" required>
 
-      <button type="submit">REGISTER AS ADMIN</button>
+      <button type="submit">REGISTER AS Staff</button>
     </form>
 
     <!-- Student Registration Form -->

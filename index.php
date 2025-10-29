@@ -38,7 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       header('Location: backN/verify_2fa.php');
       exit;
     } else {
-      echo "<script>alert('Incorrect password');</script>";
+      echo "<script>
+      alert('Incorrect Password');
+      window.location.href = 'index.html?error=incorrect-password';
+      </script>";
+      exit;
     }
 
     $stmt->close();
@@ -70,7 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       header('Location: backN/verify_2fa.php');
       exit;
     } else {
-      echo "<script>alert('Incorrect password');</script>";
+      echo "<script>
+      alert('Incorrect Password');
+      window.location.href = 'index.html?error=incorrect-password';
+      </script>";
+      exit;
     }
   } else {
     header('Location: index.html?error=notfound');

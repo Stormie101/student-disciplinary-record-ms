@@ -73,7 +73,7 @@ button:hover {
 </head>
 <body>
   <div class="logo-container">
-    <img src="relate/uptm logo.png" alt="UPTM Logo">
+    <img src="../relate/uptm logo.png" alt="UPTM Logo">
   </div>
 
   <div class="reset-container">

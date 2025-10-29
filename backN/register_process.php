@@ -22,13 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-  if ($role === "Admin") {
+  if ($role === "Staff") {
     $email = trim($_POST["email"]);
-    $userRole = "Admin";
+    $userRole = "Staff";
     $status = "Inactive";
 
     if (empty($email)) {
-      $_SESSION['error'] = "Email is required for Admin.";
+      $_SESSION['error'] = "Email is required for Staff.";
       header("Location: ../register.php");
       exit;
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
