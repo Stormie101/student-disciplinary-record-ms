@@ -113,6 +113,12 @@ $error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
       <label for="username">USERNAME</label>
       <input type="text" id="username" name="username" placeholder="Username" required>
 
+      <label for="email">EMAIL</label>
+      <input type="email" id="email" name="email" placeholder="student@example.com" required>
+
+      <label for="studentId">STUDENT ID</label>
+      <input type="text" id="studentId" name="studentId" placeholder="Insert Student ID" required>
+
       <label for="password">PASSWORD</label>
       <input type="password" id="password" name="password" placeholder="********" required>
 
