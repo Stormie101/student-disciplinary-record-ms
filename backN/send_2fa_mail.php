@@ -20,7 +20,7 @@ try {
   $mail->SMTPSecure = 'tls';
   $mail->Port = 587;
 
-  $mail->setFrom('stormie8work@gmail.com', 'UPTM Attendance System');
+  $mail->setFrom('stormie8work@gmail.com', 'UPTM Disciplinary System');
   $mail->addAddress($_SESSION['username']); 
   $mail->Subject = 'Your 2FA Verification Code';
   $mail->Body    = "Your verification code is: " . $_SESSION['2fa_code'];

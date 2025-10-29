@@ -5,7 +5,7 @@ ini_set('session.cookie_httponly', 1);
 ini_set('session.use_strict_mode', 1);
 ini_set('session.cookie_secure', isset($_SERVER['HTTPS']));
 session_start();
-
+$isAdmin = ($_SESSION['role'] === 'Admin');
 // ✅ Check if user is logged in and has correct role
 if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
   header('Location: ../index.html');
@@ -19,7 +19,7 @@ include '../db_connects.php'; // adjust path if needed
 
 function fetchStaff($conn) {
     $staff = [];
-    $query = "SELECT userID, username, email, userRole, createdAt FROM users ORDER BY createdAt DESC";
+    $query = "SELECT userID, username, email, userRole, createdAt, status FROM users ORDER BY createdAt DESC";
     $result = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_assoc($result)) {
@@ -28,6 +28,7 @@ function fetchStaff($conn) {
 
     return $staff;
 }
+
 
 $staffList = fetchStaff($conn);
 ?>
@@ -133,6 +134,30 @@ $staffList = fetchStaff($conn);
 .delete-btn:hover {
   background-color: #c82333;
 }
+.status-toggle-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.status-toggle-btn.activate {
+  background-color: #28a745;
+  color: white;
+}
+.status-toggle-btn.activate:hover {
+  background-color: #218838;
+}
+
+.status-toggle-btn.deactivate {
+  background-color: #ffc107;
+  color: black;
+}
+.status-toggle-btn.deactivate:hover {
+  background-color: #e0a800;
+}
 
   </style>
 </head>
@@ -152,18 +177,20 @@ $staffList = fetchStaff($conn);
   <h2>Staff & User Directory</h2>
 
   <table>
-    <thead>
-      <tr>
-        <th>User ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Dummy Data Rows -->
+<thead>
+  <tr>
+    <th>User ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Role</th>
+    <th>Created At</th>
+    <?php if ($isAdmin): ?>
+      <th>Status</th>
+    <?php endif; ?>
+    <th>Actions</th>
+  </tr>
+</thead>
+
 <?php foreach ($staffList as $staff): ?>
 <tr>
   <td><?php echo htmlspecialchars($staff['userID']); ?></td>
@@ -171,15 +198,29 @@ $staffList = fetchStaff($conn);
   <td><?php echo htmlspecialchars($staff['email']); ?></td>
   <td><?php echo htmlspecialchars($staff['userRole']); ?></td>
   <td><?php echo htmlspecialchars($staff['createdAt']); ?></td>
-<td class="action-buttons">
-  <button class="update-btn" onclick="location.href='edit_staff.php?id=<?php echo $staff['userID']; ?>'">Update</button>
-  <button class="delete-btn" onclick="confirmDelete(<?php echo $staff['userID']; ?>)">Delete</button>
-</td>
 
+  <?php if ($isAdmin): ?>
+    <td>
+      <?php echo htmlspecialchars($staff['status']); ?>
+<form method="POST" action="toggle_status.php" style="display:inline;">
+  <input type="hidden" name="userID" value="<?php echo $staff['userID']; ?>">
+  <input type="hidden" name="currentStatus" value="<?php echo $staff['status']; ?>">
+  <button type="submit"
+          class="status-toggle-btn <?php echo ($staff['status'] === 'Active') ? 'deactivate' : 'activate'; ?>">
+    <?php echo ($staff['status'] === 'Active') ? 'Deactivate' : 'Activate'; ?>
+  </button>
+</form>
+
+    </td>
+  <?php endif; ?>
+
+  <td class="action-buttons">
+    <button class="update-btn" onclick="location.href='edit_staff.php?id=<?php echo $staff['userID']; ?>'">Update</button>
+    <button class="delete-btn" onclick="confirmDelete(<?php echo $staff['userID']; ?>)">Delete</button>
+  </td>
 </tr>
 <?php endforeach; ?>
 
-    </tbody>
   </table>
 </div>
 <script>

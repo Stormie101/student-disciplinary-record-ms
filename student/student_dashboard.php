@@ -1,5 +1,10 @@
 <?php
-// 🔐 Basic secure session setup
+// 🔒 Prevent back navigation after logout
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+// 🔐 Secure session setup
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_strict_mode', 1);
 ini_set('session.cookie_secure', isset($_SERVER['HTTPS']));

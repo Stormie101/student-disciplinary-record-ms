@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $password = $_POST['password'] ?? '';
 
   // 🔍 First check in Users table (Admin & Staff)
-  $stmt = $conn->prepare("SELECT userID, username, email, passwordHash, userRole FROM Users WHERE username = ?");
+  $stmt = $conn->prepare("SELECT userID, username, email, passwordHash, userRole, status FROM Users WHERE username = ?");
   $stmt->bind_param("s", $username);
   $stmt->execute();
   $result = $stmt->get_result();
@@ -17,17 +17,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $result->fetch_assoc();
 
     if (password_verify($password, $user['passwordHash'])) {
+      // 🚫 Check if account is inactive
+      if ($user['status'] !== 'active') {
+        header('Location: backN/inactive_notice.php');
+        exit;
+      }
+
+      // ✅ Proceed with OTP
       $_SESSION['username'] = $user['username'];
       $_SESSION['email'] = $user['email'];
       $_SESSION['role'] = $user['userRole'];
       $_SESSION['userID'] = $user['userID'];
 
-      // 🔐 Generate OTP
       $otp = rand(100000, 999999);
       $_SESSION['2fa_code'] = $otp;
       $_SESSION['2fa_expiry'] = time() + 300; // 5 minutes
 
-      // 📧 Send OTP via PHPMailer
       require 'backN/2fa_mail.php';
 
       header('Location: backN/verify_2fa.php');
@@ -68,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo "<script>alert('Incorrect password');</script>";
     }
   } else {
-    header('Location: error.php');
+    header('Location: index.html?error=notfound');
     exit;
   }
 

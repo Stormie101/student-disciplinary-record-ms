@@ -24,7 +24,7 @@ try {
   $mail->Port = 587;
 
   // ✅ Sender and recipient
-  $mail->setFrom('stormie8work@gmail.com', 'UPTM Attendance System');
+  $mail->setFrom('stormie8work@gmail.com', 'UPTM Disciplinary System');
 
   // ✅ Validate recipient email
   if (!isset($_SESSION['email']) || !filter_var($_SESSION['email'], FILTER_VALIDATE_EMAIL)) {
@@ -41,7 +41,7 @@ try {
     Your 2FA verification code is: <strong>{$_SESSION['2fa_code']}</strong><br><br>
     This code will expire in 5 minutes.<br><br>
     Regards,<br>
-    UPTM Attendance System
+    UPTM Disciplinary System
   ";
 
   // ✅ Send the email

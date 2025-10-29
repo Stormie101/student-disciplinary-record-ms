@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $mail->SMTPSecure = 'tls';
       $mail->Port = 587;
 
-      $mail->setFrom('stormie8work@gmail.com', 'UPTM System');
+      $mail->setFrom('stormie8work@gmail.com', 'UPTM Disciplinary System');
       $mail->addAddress($email);
 
       $mail->isHTML(true);
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Your verification code is: <strong>$verificationCode</strong><br><br>
         Please enter this code on the verification page to continue.<br><br>
         Regards,<br>
-        UPTM System
+        UPTM Disciplinary System
       ";
 
       $mail->send();

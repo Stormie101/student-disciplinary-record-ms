@@ -29,7 +29,9 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"],
+select {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -74,4 +76,17 @@ button:hover {
 .logo-container img {
   width: 200px; /* Adjust size as needed */
   height: auto;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 15px;
+}
+.register-link a {
+  color: #007BFF;
+  text-decoration: none;
+}
+.register-link a:hover {
+  text-decoration: underline;
 }
