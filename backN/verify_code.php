@@ -1,78 +1,136 @@
 <?php
 session_start();
+require '../db_connects.php';
+
+$step = 'verify'; // default step
+$error = '';
+
+// ✅ Step 1: Verify code
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['code'])) {
+  $enteredCode = trim($_POST['code']);
+  if ($enteredCode == $_SESSION['verification_code']) {
+    $step = 'reset';
+  } else {
+    $error = "Invalid verification code.";
+  }
+}
+
+// ✅ Step 2: Reset password
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
+  $password = $_POST['password'];
+  $confirm = $_POST['confirm_password'];
+
+  if ($password !== $confirm) {
+    $error = "Passwords do not match.";
+    $step = 'reset';
+  } else {
+    $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+    if ($_SESSION['reset_role'] === 'Admin') {
+      $id = $_SESSION['reset_userID'];
+      $stmt = $conn->prepare("UPDATE users SET passwordHash = ? WHERE userID = ?");
+      $stmt->bind_param("si", $hashed, $id);
+    } else {
+      $id = $_SESSION['reset_studentID'];
+      $stmt = $conn->prepare("UPDATE students SET password = ? WHERE studentID = ?");
+      $stmt->bind_param("si", $hashed, $id);
+    }
+
+    $stmt->execute();
+    session_destroy();
+    echo "<script>alert('Password reset successful'); window.location.href='../index.html';</script>";
+    exit;
+  }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Verify Code – UPTM</title>
+  <meta charset="UTF-8" />
+  <title>Verify Code & Reset Password</title>
   <style>
     body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f0f4f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-.verify-container {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  width: 350px;
-  text-align: center;
-}
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
 
-h2 {
-  margin-bottom: 20px;
-  color: #333;
-}
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #004aad;
+    }
 
-label {
-  display: block;
-  margin-top: 15px;
-  font-weight: bold;
-  color: #444;
-}
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
 
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+    .btn {
+      background-color: #004aad;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
 
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #0078D7;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .btn:hover {
+      background-color: #003080;
+    }
 
-button:hover {
-  background-color: #005fa3;
-}
-
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
-  <div class="verify-container">
-    <h2>Enter Verification Code</h2>
-    <form action="check_code.php" method="POST">
-      <label for="code">Verification Code</label>
-      <input type="text" id="code" name="code" placeholder="Enter 6-digit code" required>
+  <div class="container">
+    <div class="title">
+      <?= $step === 'verify' ? 'Enter Verification Code' : 'Reset Your Password' ?>
+    </div>
 
-      <button type="submit">VERIFY</button>
-    </form>
+    <?php if ($error): ?>
+      <div class="error"><?= $error ?></div>
+    <?php endif; ?>
+
+    <?php if ($step === 'verify'): ?>
+      <form method="POST">
+        <input type="text" name="code" placeholder="6-digit Code" required />
+        <button type="submit" class="btn">Verify</button>
+      </form>
+    <?php else: ?>
+      <form method="POST">
+        <input type="password" name="password" placeholder="New Password" required />
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+        <button type="submit" class="btn">Reset Password</button>
+      </form>
+    <?php endif; ?>
   </div>
 </body>
 </html>
