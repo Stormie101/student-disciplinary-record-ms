@@ -48,88 +48,113 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <title>Edit Staff – UPTM System</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
 
-    .navbar {
-      background-color: #edcbf6;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-      border-bottom: 2px solid black;
-    }
+/* Navbar */
+.navbar {
+  background: linear-gradient(to right, #a678d8, #d8b4f8);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 
-    .nav-title {
-      font-size: 20px;
-      font-weight: bold;
-      color: black;
-    }
+.nav-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
+}
 
-    .nav-buttons button {
-      background-color: white;
-      color: black;
-      border: none;
-      padding: 10px 15px;
-      margin-left: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.nav-buttons button {
+  background-color: white;
+  color: #5a2d82;
+  border: none;
+  padding: 10px 18px;
+  margin-left: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .nav-buttons button:hover {
-      background-color: #e0e0e0;
-    }
+.nav-buttons button:hover {
+  background-color: #f0e6ff;
+  transform: translateY(-2px);
+}
 
-    .main-content {
-      padding: 40px;
-      max-width: 600px;
-      margin: auto;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 8px;
-      margin-top: 40px;
-    }
+/* Main Content */
+.main-content {
+  padding: 50px 30px;
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  animation: fadeIn 0.4s ease-in-out;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    form label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 35px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
 
-    form input, form select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
+/* Form */
+form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #555;
+}
 
-    button[type="submit"] {
-      background-color: #0078D7;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+form input,
+form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
 
-    button[type="submit"]:hover {
-      background-color: #005fa3;
-    }
+form input:focus,
+form select:focus {
+  border-color: #a678d8;
+  outline: none;
+}
+
+/* Submit Button */
+button[type="submit"] {
+  background-color: #0078D7;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #005fa3;
+}
+
   </style>
 </head>
 <body>
@@ -137,9 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="navbar">
   <a href="admin_dashboard.php" style="text-decoration: none;"><div class="nav-title">UPTM Discipline Management System</div></a>
   <div class="nav-buttons">
-    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
+    <button onclick="location.href='view_staff.php'">View Staff</button>
     <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>

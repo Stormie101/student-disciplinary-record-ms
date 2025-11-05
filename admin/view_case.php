@@ -41,118 +41,168 @@ function fetchDisciplinaryCases($conn) {
   <meta charset="UTF-8">
   <title>View Cases – UPTM System</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
 
-    .navbar {
-      background-color: #edcbf6;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-      border-bottom: 2px solid black;
-    }
+/* Navbar */
+.navbar {
+  background: linear-gradient(to right, #a678d8, #d8b4f8);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 
-    .nav-title {
-      font-size: 20px;
-      font-weight: bold;
-    }
+.nav-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
+}
 
-    .nav-buttons button {
-      background-color: white;
-      color: black;
-      border: none;
-      padding: 10px 15px;
-      margin-left: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.nav-buttons button {
+  background-color: white;
+  color: #5a2d82;
+  border: none;
+  padding: 10px 18px;
+  margin-left: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .nav-buttons button:hover {
-      background-color: #e0e0e0;
-    }
+.nav-buttons button:hover {
+  background-color: #f0e6ff;
+  transform: translateY(-2px);
+}
 
-    .main-content {
-      padding: 40px;
-    }
+/* Main Content */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 30px;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 25px;
+}
 
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
+.filter-bar input {
+  flex: 1;
+  min-width: 300px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
 
-    th {
-      background-color: #0078D7;
-      color: white;
-    }
+.filter-bar select {
+  width: 180px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
 
-    tr:hover {
-      background-color: #f1f1f1;
-    }
 
-    .action-buttons button {
-      padding: 6px 12px;
-      margin-right: 5px;
-      border: none;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: #a678d8;
+  outline: none;
+}
 
-    .update-btn {
-      background-color: #ffc107;
-      color: black;
-    }
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
 
-    .view-btn {
-      background-color: #0078D7;
-      color: white;
-    }
+th, td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
 
-    .update-btn:hover {
-      background-color: #e0a800;
-    }
+th {
+  background-color: #0078D7;
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-    .view-btn:hover {
-      background-color: #005fa3;
-    }
+tr:hover {
+  background-color: #f9f9f9;
+}
 
-    .generate-btn {
-      background-color: #28a745;
-      color: white;
-    }
+/* Action Buttons */
+.action-buttons button {
+  padding: 8px 14px;
+  margin-right: 6px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-    .generate-btn:hover {
-      background-color: #1e7e34;
-    }
+.update-btn {
+  background-color: #ffc107;
+  color: #333;
+}
 
-    .nav-title{
-      color:black;
-    }
-    .delete-btn {
+.update-btn:hover {
+  background-color: #e0a800;
+}
+
+.view-btn {
+  background-color: #0078D7;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #005fa3;
+}
+
+.generate-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.generate-btn:hover {
+  background-color: #1e7e34;
+}
+
+.delete-btn {
   background-color: #dc3545;
   color: white;
 }
+
 .delete-btn:hover {
   background-color: #c82333;
 }
@@ -170,8 +220,16 @@ function fetchDisciplinaryCases($conn) {
     <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>
-
 <div class="main-content">
+  <div class="filter-bar">
+  <input type="text" id="searchInput" placeholder="Search by Student ID...">
+  <select id="statusFilter">
+    <option value="">All Status</option>
+    <option value="open">Open Only</option>
+    <option value="closed">Closed Only</option>
+  </select>
+</div>
+
   <h2>Current Disciplinary Cases</h2>
 
   <table>
@@ -205,13 +263,37 @@ function fetchDisciplinaryCases($conn) {
     </tbody>
   </table>
 </div>
-
 </body>
 <script>
 function confirmDelete(caseID) {
   if (confirm("Are you sure you want to delete Case ID " + caseID + "? This action cannot be undone.")) {
     window.location.href = "delete_case.php?id=" + caseID;
   }
+}
+function confirmDelete(caseID) {
+  if (confirm("Are you sure you want to delete Case ID " + caseID + "? This action cannot be undone.")) {
+    window.location.href = "delete_case.php?id=" + caseID;
+  }
+}
+
+// 🔍 Live Search + Filter
+document.getElementById('searchInput').addEventListener('input', filterTable);
+document.getElementById('statusFilter').addEventListener('change', filterTable);
+
+function filterTable() {
+  const searchValue = document.getElementById('searchInput').value.toLowerCase();
+  const statusValue = document.getElementById('statusFilter').value.toLowerCase();
+  const rows = document.querySelectorAll('tbody tr');
+
+  rows.forEach(row => {
+    const studentID = row.cells[1].textContent.toLowerCase();
+    const status = row.cells[4].textContent.toLowerCase();
+
+    const matchesSearch = studentID.includes(searchValue);
+    const matchesStatus = statusValue === '' || status === statusValue;
+
+    row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+  });
 }
 </script>
 

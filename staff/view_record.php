@@ -64,57 +64,92 @@ if (isset($_POST['update'])) {
   <meta charset="UTF-8">
   <title>View Cases – UPTM System</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
 
-    .navbar {
-      background-color: #edcbf6;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-      border-bottom: 2px solid black;
-    }
+/* Navbar */
+.navbar {
+  background: linear-gradient(to right, #a678d8, #d8b4f8);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 
-    .nav-title {
-      font-size: 20px;
-      font-weight: bold;
-    }
+.nav-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
+}
 
-    .nav-buttons button {
-      background-color: white;
-      color: black;
-      border: none;
-      padding: 10px 15px;
-      margin-left: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.nav-buttons button {
+  background-color: white;
+  color: #5a2d82;
+  border: none;
+  padding: 10px 18px;
+  margin-left: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .nav-buttons button:hover {
-      background-color: #e0e0e0;
-    }
+.nav-buttons button:hover {
+  background-color: #f0e6ff;
+  transform: translateY(-2px);
+}
 
-    .main-content {
-      padding: 40px;
-    }
+/* Main Content */
+.main-content {
+  padding: 50px 30px;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 35px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
 
-    button {
+/* Case Box */
+.case-box {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.case-box p {
+  margin-bottom: 18px;
+  font-size: 15px;
+  color: #444;
+}
+
+.case-box strong {
+  color: #333;
+}
+
+/* Buttons */
+button {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 12px 20px;
   margin-top: 20px;
+  margin-right: 10px;
   font-weight: bold;
   font-size: 14px;
   color: white;
@@ -130,7 +165,29 @@ button:hover {
   background-color: #005fa3;
 }
 
-    
+.generate-btn {
+  background-color: #28a745;
+}
+
+.generate-btn:hover {
+  background-color: #1e7e34;
+}
+
+/* Evidence Box */
+#evidenceBox {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+#evidenceBox img {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
   </style>
 </head>
 <body>
@@ -145,6 +202,7 @@ button:hover {
 </div>
 
 <div class="main-content">
+  <div class="case-box">
 <h2>Full Case Record</h2>
 <div style="max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
   <p><strong>Case ID:</strong> <?php echo htmlspecialchars($case['caseID']); ?></p>
@@ -175,6 +233,7 @@ button:hover {
         }
       ?>
     </p>
+    </div>
   </div>
   
 <?php endif; ?>

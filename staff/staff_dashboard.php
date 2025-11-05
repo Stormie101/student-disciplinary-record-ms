@@ -53,76 +53,98 @@ $metrics = getDashboardMetrics($conn);
   <meta charset="UTF-8">
   <title>Staff Page – UPTM System</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
 
+/* Navbar */
 .navbar {
-  background-color: #edcbf6;
-  padding: 15px 30px;
+  background: linear-gradient(to right, #a678d8, #d8b4f8);
+  padding: 18px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
-  border-bottom: 2px solid black;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .nav-title {
-  font-size: 20px;
-  font-weight: bold;
-  color: black;
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
 }
 
 .nav-buttons button {
   background-color: white;
-  color: black;
+  color: #5a2d82;
   border: none;
-  padding: 10px 15px;
-  margin-left: 10px;
-  border-radius: 5px;
+  padding: 10px 18px;
+  margin-left: 12px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .nav-buttons button:hover {
-  background-color: #e0e0e0;
+  background-color: #f0e6ff;
+  transform: translateY(-2px);
 }
 
-    .main-content {
-      padding: 40px;
-      text-align: center;
-    }
+/* Main Content */
+.main-content {
+  padding: 50px 20px;
+  text-align: center;
+}
 
-    .metrics-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
+.main-content h2 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 30px;
+}
 
-    .metric-box {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 250px;
-    }
+/* Metrics Grid */
+.metrics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 20px;
+}
 
-    .metric-title {
-      font-size: 16px;
-      color: #333;
-      margin-bottom: 10px;
-    }
+.metric-box {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  width: 260px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  border-top: 5px solid #a678d8;
+}
 
-    .metric-value {
-      font-size: 28px;
-      font-weight: bold;
-      color: #0078D7;
-    }
+.metric-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.metric-title {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #0078D7;
+}
+
   </style>
 </head>
 <body>

@@ -5,70 +5,103 @@
   <title>Forgot Password - UPTM</title>
   <style>
     body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f0f4f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #f0f4f8);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.logo-container {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
 
 .logo-container img {
-  width: 100px;
+  width: 200px; 
   height: auto;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.2));
 }
 
-.reset-container {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  width: 350px;
-  text-align: center;
-}
 
-h2 {
-  margin-bottom: 20px;
-  color: #333;
-}
+    .reset-container {
+      background-color: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
 
-label {
-  display: block;
-  margin-top: 15px;
-  font-weight: bold;
-  color: #444;
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-input[type="email"] {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+    h2 {
+      margin-bottom: 25px;
+      color: #0078D7;
+      font-size: 24px;
+      font-weight: 600;
+    }
 
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #0078D7;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #555;
+      text-align: left;
+    }
 
-button:hover {
-  background-color: #005fa3;
-}
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
 
+    input[type="email"]:focus {
+      border-color: #0078D7;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 30px;
+      background-color: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    @media (max-width: 480px) {
+      .reset-container {
+        padding: 30px 20px;
+        margin: 0 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -77,12 +110,12 @@ button:hover {
   </div>
 
   <div class="reset-container">
-    <h2>Reset Password</h2>
+    <h2>Reset Your Password</h2>
     <form action="send_verification.php" method="POST">
-      <label for="email">EMAIL</label>
-      <input type="email" id="email" name="email" placeholder="Enter registered email" required>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Enter your registered email" required>
 
-      <button type="submit">SEND VERIFICATION</button>
+      <button type="submit">Send Verification</button>
     </form>
   </div>
 </body>

@@ -58,100 +58,131 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <title>Report New Case – UPTM System</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
 
-    .navbar {
-      background-color: #edcbf6;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-      border-bottom: 2px solid black;
-    }
+/* Navbar */
+.navbar {
+  background: linear-gradient(to right, #a678d8, #d8b4f8);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 
-    .nav-title {
-      font-size: 20px;
-      font-weight: bold;
-    }
+.nav-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
+}
 
-    .nav-buttons button {
-      background-color: white;
-      color: black;
-      border: none;
-      padding: 10px 15px;
-      margin-left: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.nav-buttons button {
+  background-color: white;
+  color: #5a2d82;
+  border: none;
+  padding: 10px 18px;
+  margin-left: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .nav-buttons button:hover {
-      background-color: #e0e0e0;
-    }
+.nav-buttons button:hover {
+  background-color: #f0e6ff;
+  transform: translateY(-2px);
+}
 
-    .form-container {
-      background-color: white;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 600px;
-    }
+/* Form Container */
+.form-container {
+  background-color: white;
+  margin: 60px auto;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 650px;
+  animation: fadeIn 0.4s ease-in-out;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-      color: #444;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 35px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
 
-    input[type="text"],
-    input[type="date"],
-    input[type="time"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+/* Form Elements */
+label {
+  display: block;
+  margin-top: 20px;
+  font-weight: 600;
+  color: #555;
+}
 
-    input[type="file"] {
-      margin-top: 10px;
-    }
+input[type="text"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
 
-    button[type="submit"] {
-      width: 100%;
-      padding: 12px;
-      margin-top: 30px;
-      background-color: #0078D7;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #a678d8;
+  outline: none;
+}
 
-    button[type="submit"]:hover {
-      background-color: #005fa3;
-    }
+input[readonly] {
+  background-color: #f9f9f9;
+  color: #666;
+  cursor: default;
+}
 
-    .nav-title{
-        color:black;
-    }
+input[type="file"] {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Submit Button */
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  margin-top: 35px;
+  background-color: #0078D7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #005fa3;
+}
+
   </style>
 </head>
 <body>

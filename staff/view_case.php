@@ -41,114 +41,127 @@ function fetchDisciplinaryCases($conn) {
   <meta charset="UTF-8">
   <title>View Cases – UPTM System</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
 
-    .navbar {
-      background-color: #edcbf6;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-      border-bottom: 2px solid black;
-    }
+/* Navbar */
+.navbar {
+  background: linear-gradient(to right, #a678d8, #d8b4f8);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 
-    .nav-title {
-      font-size: 20px;
-      font-weight: bold;
-    }
+.nav-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
+}
 
-    .nav-buttons button {
-      background-color: white;
-      color: black;
-      border: none;
-      padding: 10px 15px;
-      margin-left: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.nav-buttons button {
+  background-color: white;
+  color: #5a2d82;
+  border: none;
+  padding: 10px 18px;
+  margin-left: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .nav-buttons button:hover {
-      background-color: #e0e0e0;
-    }
+.nav-buttons button:hover {
+  background-color: #f0e6ff;
+  transform: translateY(-2px);
+}
 
-    .main-content {
-      padding: 40px;
-    }
+/* Main Content */
+.main-content {
+  padding: 50px 30px;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 35px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
 
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
+th, td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
 
-    th {
-      background-color: #0078D7;
-      color: white;
-    }
+th {
+  background-color: #0078D7;
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-    tr:hover {
-      background-color: #f1f1f1;
-    }
+tr:hover {
+  background-color: #f9f9f9;
+}
 
-    .action-buttons button {
-      padding: 6px 12px;
-      margin-right: 5px;
-      border: none;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* Action Buttons */
+.action-buttons button {
+  padding: 8px 14px;
+  margin-right: 6px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-    .update-btn {
-      background-color: #ffc107;
-      color: black;
-    }
+.update-btn {
+  background-color: #ffc107;
+  color: #333;
+}
 
-    .view-btn {
-      background-color: #0078D7;
-      color: white;
-    }
+.update-btn:hover {
+  background-color: #e0a800;
+}
 
-    .update-btn:hover {
-      background-color: #e0a800;
-    }
+.view-btn {
+  background-color: #0078D7;
+  color: white;
+}
 
-    .view-btn:hover {
-      background-color: #005fa3;
-    }
+.view-btn:hover {
+  background-color: #005fa3;
+}
 
-    .generate-btn {
-      background-color: #28a745;
-      color: white;
-    }
+.generate-btn {
+  background-color: #28a745;
+  color: white;
+}
 
-    .generate-btn:hover {
-      background-color: #1e7e34;
-    }
+.generate-btn:hover {
+  background-color: #1e7e34;
+}
 
-    .nav-title{
-      color:black;
-    }
   </style>
 </head>
 <body>

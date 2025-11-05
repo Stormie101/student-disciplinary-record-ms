@@ -101,9 +101,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Execute insert
   if ($stmt->execute()) {
-    unset($_SESSION['error']);
+    if($role === "Staff") {
+          unset($_SESSION['error']);
     header("Location: register_success.php");
     exit;
+    }
+    elseif($role === "Student") {
+          unset($_SESSION['error']);
+          header("Location: student_register_success.php");
+    exit;
+    }
   } else {
     $_SESSION['error'] = "❌ Error: " . $stmt->error;
     header("Location: ../register.php");
