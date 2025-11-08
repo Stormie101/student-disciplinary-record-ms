@@ -50,7 +50,8 @@ $conn->close();
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Cases – UPTM System</title>
+  <title>My Cases - UPTM System</title>
+  <link rel="icon" type="image/png" href="../relate/uptm_logo2.png">
   <style>
 body {
   font-family: 'Segoe UI', sans-serif;
@@ -152,6 +153,7 @@ tr:hover {
     <div class="nav-title">UPTM Discipline Management System</div>
   </a>
   <div class="nav-buttons">
+    <button onclick="location.href='user_manual.php'">User Manual</button>
     <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>

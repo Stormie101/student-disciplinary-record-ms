@@ -8,6 +8,7 @@ $error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
   <meta charset="UTF-8">
   <title>UPTM Registration</title>
   <link rel="stylesheet" href="index.css">
+  <link rel="icon" type="image/png" href="relate/uptm_logo2.png">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;

@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Report New Case – UPTM System</title>
+  <title>Report New Case - UPTM System</title>
+  <link rel="icon" type="image/png" href="../relate/uptm_logo2.png">
   <style>
     body {
   font-family: 'Segoe UI', sans-serif;
@@ -177,6 +178,7 @@ button[type="submit"]:hover {
   <div class="nav-buttons">
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
+    <button onclick="location.href='user_manual.php'">User Manual</button>
     <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>
@@ -202,8 +204,8 @@ button[type="submit"]:hover {
       <option value="">Select Offense</option>
       <option value="Inappropriate Attire">Inappropriate Attire</option>
       <option value="Disruptive Behavior">Disruptive Behavior</option>
-      <option value="Cheating">Cheating</option>
-      <!-- Add more as needed -->
+      <option value="Cheating">Sticker Vehicle</option>
+      <option value="Cheating">Hairstyle</option>
     </select>
 
     <label for="incidentDate">Date of Incident</label>

@@ -52,6 +52,7 @@ $metrics = getDashboardMetrics($conn);
 <head>
   <meta charset="UTF-8">
   <title>Staff Page – UPTM System</title>
+  <link rel="icon" type="image/png" href="../relate/uptm_logo2.png">
   <style>
 body {
   font-family: 'Segoe UI', sans-serif;
@@ -154,6 +155,7 @@ body {
   <div class="nav-buttons">
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
+    <button onclick="location.href='user_manual.php'">User Manual</button>
     <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>

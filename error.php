@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Error - UPTM System</title>
+  <link rel="icon" type="image/png" href="relate/uptm_logo2.png">
   <style>
     body {
   font-family: 'Segoe UI', sans-serif;

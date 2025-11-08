@@ -23,7 +23,12 @@ $cases = fetchDisciplinaryCases($conn);
 function fetchDisciplinaryCases($conn) {
     $cases = [];
 
-    $query = "SELECT caseID, studentID, caseDate, offenseType, status FROM disciplinary_cases ORDER BY caseDate DESC";
+    $query = "
+        SELECT dc.caseID, dc.studentID, s.studentName, dc.caseDate, dc.offenseType, dc.status
+        FROM disciplinary_cases dc
+        INNER JOIN students s ON dc.studentID = s.studentID
+        ORDER BY dc.caseDate DESC
+    ";
     $result = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_assoc($result)) {
@@ -33,13 +38,15 @@ function fetchDisciplinaryCases($conn) {
     return $cases;
 }
 
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>View Cases – UPTM System</title>
+  <title>View Cases - UPTM System</title>
+  <link rel="icon" type="image/png" href="../relate/uptm_logo2.png">
   <style>
 body {
   font-family: 'Segoe UI', sans-serif;
@@ -217,6 +224,7 @@ tr:hover {
     <button onclick="location.href='report_case.php'">Report New Case</button>
     <button onclick="location.href='view_case.php'">View Case</button>
     <button onclick="location.href='view_staff.php'">View Staff</button>
+    <button onclick="location.href='user_manual.php'">User Manual</button>
     <button onclick="location.href='logout.php'">Logout</button>
   </div>
 </div>
@@ -237,6 +245,7 @@ tr:hover {
       <tr>
         <th>Case ID</th>
         <th>Student ID</th>
+        <th>Student Name</th>
         <th>Offense Type</th>
         <th>Date</th>
         <th>Status</th>
@@ -248,6 +257,7 @@ tr:hover {
 <tr>
   <td><?php echo htmlspecialchars($case['caseID']); ?></td>
   <td><?php echo htmlspecialchars($case['studentID']); ?></td>
+  <td><?php echo htmlspecialchars($case['studentName']); ?></td> <!-- new cell -->
   <td><?php echo htmlspecialchars($case['offenseType']); ?></td>
   <td><?php echo htmlspecialchars($case['caseDate']); ?></td>
   <td><?php echo htmlspecialchars($case['status']); ?></td>
@@ -259,6 +269,7 @@ tr:hover {
   </td>
 </tr>
 <?php endforeach; ?>
+
 
     </tbody>
   </table>
